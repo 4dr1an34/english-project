@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Son the Fanatic — Hanif Kureishi</title>
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --bg-black: #000000;
+      --bg-card: rgba(8, 8, 10, 0.88);
+      --border-thin: rgba(255, 255, 255, 0.16);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --text-white: #ffffff;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family) !important;
+    }
+
+    body {
+      background-color: var(--bg-black);
+      color: var(--text-white);
+      font-family: var(--font-family);
+      line-height: 1.75;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    
+    #progress-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: var(--text-white);
+      width: 0%;
+      z-index: 100;
+      transition: width 0.05s linear;
+    }
+
+    
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 90;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 1.1rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      text-decoration: none;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-title {
+      font-family: var(--font-family);
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-items {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-btn:hover {
+      color: var(--text-white);
+    }
+
+    .btn-summary {
+      background: var(--text-white);
+      color: var(--bg-black);
+      font-family: var(--font-family);
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 0.45rem 1.15rem;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 1px solid var(--text-white);
+      transition: background-color 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .btn-summary:hover {
+      background: transparent;
+      color: var(--text-white);
+    }
+
+    .btn-story-summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      padding: 1.1rem 2.6rem;
+      border-radius: 6px;
+      border: 1px solid #ffffff;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-story-summary:hover {
+      background: transparent;
+      color: #ffffff;
+      border-color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .btn-story-summary svg {
+      transition: transform 0.25s ease;
+    }
+
+    .btn-story-summary:hover svg {
+      transform: translateX(4px);
+    }
+
+    
+    .scrolly-act {
+      position: relative;
+      width: 100vw;
+      min-height: 250vh; 
+    }
+
+    
+    .sticky-viewport {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    
+    .sticky-viewport img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.92) contrast(1.05); 
+      transform: scale(1.02);
+      transition: transform 6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    
+    .sticky-viewport::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg, 
+        rgba(0, 0, 0, 0.85) 0%, 
+        rgba(0, 0, 0, 0.45) 45%, 
+        rgba(0, 0, 0, 0.15) 100%
+      );
+      pointer-events: none;
+    }
+
+    .scrolly-act.reverse-scrim .sticky-viewport::after {
+      background: linear-gradient(
+        270deg, 
+        rgba(0, 0, 0, 0.85) 0%, 
+        rgba(0, 0, 0, 0.45) 45%, 
+        rgba(0, 0, 0, 0.15) 100%
+      );
+    }
+
+    
+    .narrative-stream {
+      position: relative;
+      z-index: 10;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 20vh;
+      padding-top: 15vh;
+      padding-bottom: 20vh;
+      pointer-events: none;
+    }
+
+    
+    .story-card {
+      pointer-events: auto;
+      max-width: 560px;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-thin);
+      border-radius: 8px;
+      padding: 2.25rem 2.25rem;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .story-card.align-right {
+      margin-left: auto;
+    }
+
+    .story-act-badge {
+      font-family: var(--font-family);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .story-title {
+      font-family: var(--font-family);
+      font-size: clamp(1.85rem, 3.2vw, 2.4rem);
+      line-height: 1.2;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      color: var(--text-white);
+    }
+
+    .story-title em {
+      font-style: italic;
+      font-weight: 400;
+      border-bottom: 1px solid var(--border-thin);
+      padding-bottom: 2px;
+    }
+
+    .story-body {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: #e4e4e7;
+    }
+
+    .story-body p {
+      margin-bottom: 1.25rem;
+    }
+
+    .story-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .quote-highlight {
+      font-family: var(--font-family);
+      font-style: italic;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--text-white);
+      border-left: 2px solid var(--text-white);
+      padding-left: 1.5rem;
+      margin: 1.75rem 0;
+      line-height: 1.45;
+    }
+
+    
+    .editorial-section {
+      position: relative;
+      z-index: 20;
+      background: var(--bg-black);
+      padding: 4.5rem 2.5rem 3.5rem 2.5rem;
+      border-top: 1px solid var(--border-thin);
+    }
+
+    .editorial-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      text-align: center;
+      display: block;
+    }
+
+    .section-headline {
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      line-height: 1.15;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 2rem;
+      letter-spacing: -0.03em;
+    }
+
+    .section-lead {
+      font-size: 1.25rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      max-width: 780px;
+      margin: 0 auto 5rem auto;
+      text-align: center;
+    }
+
+    
+    .character-bento {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 2rem;
+      margin-bottom: 5rem;
+    }
+
+    .character-card {
+      background: #09090b;
+      border: 1px solid var(--border-thin);
+      border-radius: 8px;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .char-header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1.5rem;
+    }
+
+    .char-role {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .char-name {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--text-white);
+    }
+
+    .char-sub {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    .char-trait-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      font-size: 0.98rem;
+      color: #d4d4d8;
+      line-height: 1.75;
+    }
+
+    .char-trait-list strong {
+      color: var(--text-white);
+      font-weight: 600;
+    }
+
+    
+    .meaning-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .meaning-box {
+      border-top: 1px solid var(--border-thin);
+      padding-top: 2rem;
+    }
+
+    .meaning-box h3 {
+      font-size: 1.55rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      color: var(--text-white);
+    }
+
+    .meaning-box p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+    }
+
+    
+    #summary-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(18px);
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      overflow-y: auto;
+      padding: 4rem 2rem;
+    }
+
+    #summary-modal.active {
+      display: flex;
+      opacity: 1;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .modal-sheet {
+      background: #09090b;
+      border: 1px solid var(--border-thin);
+      border-radius: 8px;
+      max-width: 880px;
+      width: 100%;
+      padding: 3.5rem;
+      position: relative;
+      margin: auto;
+      box-shadow: 0 35px 80px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: transparent;
+      border: 1px solid var(--border-thin);
+      color: var(--text-muted);
+      width: 38px;
+      height: 38px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--text-white);
+      border-color: var(--text-white);
+    }
+
+    .modal-content h3 {
+      font-size: 1.45rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-white);
+      margin: 2rem 0 0.5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.35rem;
+    }
+
+    .modal-content p, .modal-content li {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: #d4d4d8;
+    }
+
+    .modal-content ul {
+      padding-left: 1.25rem;
+      margin-top: 0.5rem;
+    }
+
+    
+    .acc-matrix-container {
+      background: #09090b;
+      border: 1px solid var(--border-thin);
+      border-radius: 8px;
+      padding: 2.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .acc-matrix {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .matrix-item {
+      background: #111114;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .matrix-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.75rem;
+    }
+
+    .matrix-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .matrix-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-thin);
+      color: #e4e4e7;
+    }
+
+    .matrix-body p {
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: #d4d4d8;
+      margin-bottom: 0.65rem;
+    }
+
+    .matrix-deduction {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 2px solid #ffffff;
+      padding: 0.65rem 0.85rem;
+      border-radius: 3px;
+      font-size: 0.86rem !important;
+      color: #ffffff !important;
+      margin-top: 0.75rem !important;
+      margin-bottom: 0 !important;
+    }
+
+    
+    .analysis-two-col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .analysis-card {
+      background: #09090b;
+      border: 1px solid var(--border-thin);
+      border-radius: 8px;
+      padding: 2.5rem;
+    }
+
+    .analysis-card h3 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.01em;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.85rem;
+    }
+
+    .analysis-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      padding: 0;
+    }
+
+    .analysis-card li {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: #d4d4d8;
+    }
+
+    .analysis-card li strong {
+      color: #ffffff;
+    }
+
+    
+    .message-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .message-card {
+      background: #09090c;
+      border: 1px solid var(--border-thin);
+      border-radius: 8px;
+      padding: 2.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .message-card:hover {
+      border-color: rgba(255, 255, 255, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .message-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.75rem;
+    }
+
+    .message-num {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      letter-spacing: 0.15em;
+    }
+
+    .message-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: #e4e4e7;
+    }
+
+    .message-card h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.85rem;
+      letter-spacing: -0.01em;
+    }
+
+    .message-card p {
+      font-size: 0.94rem;
+      line-height: 1.7;
+      color: #d4d4d8;
+    }
+
+    
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 5rem 2rem;
+      text-align: center;
+      background: var(--bg-black);
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 0.9rem 1.25rem; }
+      .nav-items a { display: none; }
+      .narrative-stream { padding: 0 1.25rem; gap: 15vh; padding-top: 10vh; padding-bottom: 12vh; }
+      .story-card { padding: 1.75rem 1.5rem; }
+      .modal-sheet { padding: 2rem 1.25rem; }
+      .character-bento { grid-template-columns: 1fr; }
+      .acc-matrix { grid-template-columns: 1fr; }
+      .analysis-two-col { grid-template-columns: 1fr; }
+      .message-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progress-line"></div>
+
+    <header>
+    <a href="#" class="nav-brand">
+      <span class="brand-title">My Son the Fanatic</span>
+    </a>
+
+    <div class="nav-items">
+      <a href="#act-room" class="nav-btn">I. Bedroom</a>
+      <a href="#act-taxi" class="nav-btn">II. Suspicions</a>
+      <a href="#act-restaurant" class="nav-btn">III. Restaurant</a>
+      <a href="#act-philosophy-cab" class="nav-btn">IV. Cab &amp; Philosophy</a>
+      <a href="#act-climax" class="nav-btn">V. Climax</a>
+      <a href="#author-message" class="nav-btn">VI. Author's Message</a>
+      <a href="#characters" class="nav-btn">VII. Characters</a>
+      <a href="#acculturation" class="nav-btn">VIII. Acculturation &amp; Abi</a>
+      <button class="btn-summary" onclick="toggleSummary(true)">Summary</button>
+    </div>
+  </header>
+
+    <div id="summary-modal" onclick="handleBackdrop(event)">
+    <div class="modal-sheet">
+      <button class="modal-close" onclick="toggleSummary(false)" aria-label="Close modal">&times;</button>
+      
+      <span style="font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); display: block; margin-bottom: 0.75rem;">Pages 19–32</span>
+      <h2 style="font-size: 2.3rem; line-height: 1.15; margin-bottom: 1.5rem; font-weight: 700; letter-spacing: -0.02em;">
+        "My Son the Fanatic" — Summary
+      </h2>
+
+      <div class="modal-content">
+        <h3>Part 1: The Bedroom &amp; Discarded Possessions (pp. 19–20)</h3>
+        <p>
+          Parvez discovers that his son Ali has cleared out his room. Ali throws away fashionable clothes, computer disks, books, and his electric guitar, stating: <em>"There are more important things to be done."</em> Ali parts with his English girlfriend and abandons sports and his accounting studies. Ashamed, Parvez begins drinking whisky at work.
+        </p>
+
+        <h3>Part 2: Drug Fears, Bettina &amp; Night Prayers (pp. 21–23)</h3>
+        <p>
+          Suspecting drugs, Parvez seeks advice from his friend Bettina, a prostitute. She tells him <em>"It's all in the eyes"</em>. Ali's eyes are clear, but he is growing a beard. At night, Parvez catches Ali praying five times daily facing Mecca. This triggers Parvez's childhood trauma in Lahore, where a strict Quran teacher tied his hair to the ceiling, making him hate religious dogma.
+        </p>
+
+        <h3>Part 3: The Restaurant Confrontation (pp. 24–28)</h3>
+        <p>
+          Parvez takes Ali to an Indian restaurant to reconnect. Ali refuses to eat and condemns Parvez's drinking and pork consumption (<em>"This is England. We have to fit in"</em>). Ali declares: <em>"Western materialists hate us... There will be jihad."</em> On the drive home, Ali reveals he dropped out of college because Western accounting involves sinful interest (<em>"usury"</em>).
+        </p>
+
+        <h3>Part 4: Kitchen Philosophy &amp; Cab Ride (pp. 29–32)</h3>
+        <p>
+          At the kitchen table, Parvez explains his humanist philosophy: <em>"Enjoy yourself without hurting others."</em> Ali rejects enjoyment as <em>"a bottomless pit"</em>. Days later, Bettina rides in Parvez's cab and tries to defend Parvez to Ali. Ali insults her with venom (<em>"a woman like you"</em>). Humiliated, Bettina leaps from the moving taxi into the road.
+        </p>
+
+        <h3>Part 5: The Violent Climax &amp; Final Words (p. 32)</h3>
+        <p>
+          Parvez drives Ali home in silence, drinks downstairs in despair, and storms into Ali's prayer room. In a drunken rage, Parvez beats his son bloody. Ali neither flinches nor fights back, calmly asking the final question: <strong>"So who's the fanatic now?"</strong>
+        </p>
+
+        <h3>Part 6: Acculturation, Author's Message &amp; Abitur Context</h3>
+        <p>
+          • <strong>Acculturation:</strong> Parvez chose <em>Assimilation</em> (secularism), Ali chose <em>Rejection</em> (fundamentalism). Their opposite paths make dialogue impossible.<br>
+          • <strong>Author's Message:</strong> Fanaticism exists on both sides; secular people can become just as violent and intolerant as religious dogmatists.<br>
+          • <strong>Abitur Theme:</strong> Illustrates 1st vs. 2nd generation immigrant identity crises and the limits of the British "melting pot".
+        </p>
+      </div>
+    </div>
+  </div>
+
+        <section class="scrolly-act" id="act-room">
+        <div class="sticky-viewport">
+      <img src="images/scene_room_cricket.jpg" alt="Ali's bedroom with cricket bat and pale patches on the wall where posters hung">
+    </div>
+
+        <div class="narrative-stream">
+      
+            <div class="story-card">
+        <span class="story-act-badge">Pages 19–20 // Sudden Change</span>
+        <h2 class="story-title">Secret Changes in the <em>Bedroom</em></h2>
+        <div class="story-body">
+          <p>
+            Parvez, a London taxi driver for 20 years, secretly inspects Ali's bedroom. Expecting typical teenage clutter, he is shocked to find the room stripped bare and neatly ordered.
+          </p>
+          <div class="quote-highlight">
+            "What bewildered him was that Ali was getting tidier. He was sorting out his belongings surreptitiously."
+          </div>
+          <p>
+            By the dustbin, Parvez finds Ali's discarded clothes, computer disks, and electric guitar. Ali breaks up with his English girlfriend, stating: <em>"There are more important things to be done."</em>
+          </p>
+        </div>
+      </div>
+
+            <div class="story-card align-right">
+        <span class="story-act-badge">Page 20 // The Father's Shame</span>
+        <h2 class="story-title">The Forgotten <em>Cricket Bat</em></h2>
+        <div class="story-body">
+          <p>
+            On the walls, only pale marks remain where posters hung. In the corner, Ali's cricket bat gathers dust—he has abandoned sports and dropped his accounting studies.
+          </p>
+          <p>
+            Parvez worked endless night shifts to afford Ali's education and used to boast about him to Punjabi colleagues. Now deeply ashamed, Parvez starts drinking whisky at work for the first time.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+        <section class="scrolly-act reverse-scrim" id="act-taxi">
+    <div class="sticky-viewport">
+      <img src="images/scene_taxi_mirror.jpg" alt="Parvez driving his taxi through London looking at Ali in the rearview mirror">
+    </div>
+
+    <div class="narrative-stream">
+
+            <div class="story-card align-right">
+        <span class="story-act-badge">Pages 21–22 // Drug Fears</span>
+        <h2 class="story-title">"It's All in the <em>Eyes</em>"</h2>
+        <div class="story-body">
+          <p>
+            Fellow taxi drivers suspect Ali is selling possessions to buy drugs. Terrified, Parvez asks advice from Bettina, a prostitute and close confidante he once rescued from a violent client.
+          </p>
+          <div class="quote-highlight">
+            "It's all in the eyes."
+          </div>
+          <p>
+            Bettina tells him how to spot drug use. When Ali comes home, his eyes are clear, steady, and alert—ruling out drugs completely.
+          </p>
+        </div>
+      </div>
+
+            <div class="story-card">
+        <span class="story-act-badge">Page 23 // Discovery & Trauma</span>
+        <h2 class="story-title">Night Prayers &amp; <em>Lahore Trauma</em></h2>
+        <div class="story-body">
+          <p>
+            Peeking through Ali's bedroom door at night, Parvez sees Ali growing a beard and praying on the floor facing Mecca: <em>"I feel as if I've lost my son."</em>
+          </p>
+          <p>
+            This triggers Parvez's childhood trauma in Lahore, where an abusive Quran teacher tied his hair to the ceiling so he would be jerked awake if he fell asleep. Since that abuse, Parvez has despised strict religion.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+        <section class="scrolly-act" id="act-restaurant">
+    <div class="sticky-viewport">
+      <img src="images/scene_restaurant_talk.jpg" alt="Parvez and Ali confronting each other across the restaurant table">
+    </div>
+
+    <div class="narrative-stream">
+
+            <div class="story-card">
+        <span class="story-act-badge">Pages 24–26 // Ideological Duel</span>
+        <h2 class="story-title">A Fight Across the <em>Dinner Table</em></h2>
+        <div class="story-body">
+          <p>
+            Parvez takes Ali to an Indian restaurant to connect. But Ali refuses food and drinks, attacking Parvez for drinking alcohol and eating crispy bacon and pork sausages (<em>"This is England. We have to fit in"</em>).
+          </p>
+          <div class="quote-highlight">
+            "Western materialists hate us... Papa, how can you love something which hates you?"
+          </div>
+          <p>
+            Ali warns of hellfire and states: <em>"There will be jihad."</em> Furious and desperate, Parvez orders double whiskies and smashes a plate on the floor.
+          </p>
+        </div>
+      </div>
+
+            <div class="story-card align-right">
+        <span class="story-act-badge">Pages 27–28 // The Ride Home</span>
+        <h2 class="story-title">"That is the <em>Problem</em>"</h2>
+        <div class="story-body">
+          <p>
+            Driving home, Parvez defends England: <em>"They let you do almost anything here."</em> Ali coldly retorts: <em>"That is the problem."</em>
+          </p>
+          <div class="quote-highlight">
+            "I love England... They let you do almost anything here." — "That is the problem."
+          </div>
+          <p>
+            After Parvez clips a lorry, Ali refuses to help his injured father up. Ali confirms he quit college because Western accounting involves sinful interest (<em>"usury"</em>). Bettina urges Parvez: <em>"Show him love."</em>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+        <section class="scrolly-act" id="act-philosophy-cab" style="min-height: 200vh;">
+    <div class="sticky-viewport">
+      <img src="images/scene_cab_bettina.png" alt="Inside the London taxi at night: Parvez drives, Bettina turns back to talk, and Ali glares from the rear seat in the rain">
+    </div>
+
+    <div class="narrative-stream">
+
+            <div class="story-card">
+        <span class="story-act-badge">Pages 29–30 // Kitchen Dialogue</span>
+        <h2 class="story-title">Parvez's <em>Humanist</em> Plea</h2>
+        <div class="story-body">
+          <p>
+            At the kitchen table, Parvez explains his personal worldview: life should be guided by mutual respect, love, and happiness.
+          </p>
+          <div class="quote-highlight">
+            "Grass and flowers will grow out of my grave, but something of me will live on... in you... Enjoy yourself without hurting others."
+          </div>
+          <p>
+            Ali rejects this with cold dogma, calling enjoyment <em>"a bottomless pit"</em>: <em>"Real morality has existed for hundreds of years. Millions share my beliefs."</em>
+          </p>
+        </div>
+      </div>
+
+            <div class="story-card align-right">
+        <span class="story-act-badge">Pages 30–32 // Confrontation in the Cab</span>
+        <h2 class="story-title">Bettina's <em>Escape</em> into the Night</h2>
+        <div class="story-body">
+          <p>
+            Parvez picks up Ali while Bettina sits in the cab. Bettina tries to plead on Parvez's behalf: <em>"Your father... loves you more than his own life."</em>
+          </p>
+          <div class="quote-highlight">
+            "Then why is he letting a woman like you touch him like that? ... You know what kind."
+          </div>
+          <p>
+            Deeply humiliated and frightened by Ali's venom, Bettina throws herself from the moving taxi into the road and runs away into the dark.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+        <section class="scrolly-act reverse-scrim" id="act-climax" style="min-height: 140vh;">
+    <div class="sticky-viewport">
+      <img src="images/scene_climax_prayer.png" alt="Ali kneeling in prayer on a rug with Quranic calligraphy while Parvez glares from the doorway">
+    </div>
+
+    <div class="narrative-stream" style="padding-top: 18vh; padding-bottom: 20vh;">
+            <div class="story-card align-right">
+        <span class="story-act-badge">Book Page 32 // The Violent Climax</span>
+        <h2 class="story-title">"So Who's the <em>Fanatic</em> Now?"</h2>
+        <div class="story-body">
+          <p>
+            Parvez drives Ali home in stony silence. Downstairs, Parvez drinks heavily in helpless rage before storming into Ali's room, finding his son kneeling in prayer.
+          </p>
+          <div class="quote-highlight">
+            "Parvez kicked him over... dragged the boy up by the front of his shirt and hit him... The boy's face was bloody. Parvez was panting... The boy neither covered himself nor retaliated: there was no fear in his eyes."
+          </div>
+          <p>
+            Ali looks calmly at his father through his split lip and delivers the book's haunting final question:
+          </p>
+          <div class="quote-highlight" style="font-size: 1.55rem; color: #ffffff; margin-top: 0.85rem;">
+            "So who's the fanatic now?"
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+        <section class="editorial-section" id="author-message" style="border-bottom: 1px solid var(--border-subtle); padding: 4.5rem 2.5rem 3.5rem;">
+    <div class="editorial-inner">
+      <span class="section-eyebrow">Literary Interpretation // Hanif Kureishi</span>
+      <h2 class="section-headline">The Author's Core Message</h2>
+      <p class="section-lead">
+        What Hanif Kureishi communicates through the climactic confrontation and the unresolved final question.
+      </p>
+
+      <div class="message-grid">
+        
+                <div class="message-card">
+          <div class="message-card-header">
+            <span class="message-num">01 // CORE THEME</span>
+            <span class="message-badge">Universal Principle</span>
+          </div>
+          <h3>Fanaticism on Both Sides</h3>
+          <p>
+            Fanaticism is not exclusive to religion. Parvez claims to stand for Western freedom and tolerance, but when his son rejects his lifestyle, Parvez resorts to alcohol and brutal violence. Secularists can become just as fanatical, intolerant, and dogmatic as religious extremists.
+          </p>
+        </div>
+
+                <div class="message-card">
+          <div class="message-card-header">
+            <span class="message-num">02 // CORE THEME</span>
+            <span class="message-badge">Social Warning</span>
+          </div>
+          <h3>The Danger of Extremes</h3>
+          <p>
+            The story warns against two rigid extremes: <strong>blind assimilation</strong> (sacrificing your cultural roots to please the host society) and <strong>militant fundamentalism</strong> (rejecting the outside world with moral superiority). Both extremes destroy dialogue.
+          </p>
+        </div>
+
+                <div class="message-card">
+          <div class="message-card-header">
+            <span class="message-num">03 // CORE THEME</span>
+            <span class="message-badge">Human Cost</span>
+          </div>
+          <h3>Collapse of Human Empathy</h3>
+          <p>
+            When ideology replaces emotional connection, human relationships crumble. Ali shows callous contempt for his hardworking father and Bettina, while Parvez loses his composure and physically attacks his own child. Dogma eliminates compassion.
+          </p>
+        </div>
+
+                <div class="message-card">
+          <div class="message-card-header">
+            <span class="message-num">04 // CORE THEME</span>
+            <span class="message-badge">Literary Device</span>
+          </div>
+          <h3>The Open Ending &amp; Reflection</h3>
+          <p>
+            By ending on an unanswered question (<em>"So who's the fanatic now?"</em>), Kureishi avoids moralizing. The question directly challenges the reader to reflect on who the true fanatic is, the boundaries of personal freedom, and the challenges of multicultural Britain.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+        <section class="editorial-section" id="characters" style="border-bottom: 1px solid var(--border-subtle); padding: 4.5rem 2.5rem 3.5rem;">
+    <div class="editorial-inner">
+      <span class="section-eyebrow">Character Analysis // Pages 19–32</span>
+      <h2 class="section-headline">Character Profiles &amp; Motivations</h2>
+      <p class="section-lead">
+        A structured analysis of the three characters, based directly on the events, actions, and dialogues in the book.
+      </p>
+
+      <div class="character-bento">
+        
+                <div class="character-card">
+          <div class="char-header">
+            <span class="char-role">The Father (1st Generation)</span>
+            <h3 class="char-name">Parvez</h3>
+            <p class="char-sub">London taxi driver from Lahore, Pakistan</p>
+          </div>
+          <ul class="char-trait-list">
+            <li>
+              <strong>Hard Work &amp; Paternal Love (pp. 19–20):</strong> Drove 20 years of night shifts without complaint to buy Ali nice suits and pay for his accounting studies. Parvez expresses love through material sacrifice.
+            </li>
+            <li>
+              <strong>Trauma &amp; Secular Freedom (pp. 23, 26):</strong> Abused as a child by an abusive Lahore Quran teacher, he despises religious dogma. In England, he embraces personal freedom (whisky, bacon, sausages; <em>"This is England. We have to fit in"</em>).
+            </li>
+            <li>
+              <strong>Tragic Loss of Control (p. 32):</strong> Deeply humiliated by Ali's rejection, Parvez tries to connect through love and philosophy. When words fail and Bettina is insulted, his desperation turns into drunken rage—becoming the violent fanatic himself.
+            </li>
+          </ul>
+        </div>
+
+                <div class="character-card">
+          <div class="char-header">
+            <span class="char-role">The Son (2nd Generation)</span>
+            <h3 class="char-name">Ali</h3>
+            <p class="char-sub">British-born student turned fundamentalist</p>
+          </div>
+          <ul class="char-trait-list">
+            <li>
+              <strong>Former Integrated Life (pp. 19–20):</strong> Once a successful British teen: straight A's, college accounting student, cricket, football, electric guitar, and an English girlfriend.
+            </li>
+            <li>
+              <strong>Radicalisation &amp; Rejection (pp. 26–29):</strong> Feeling alienated in Britain (<em>"Western materialists hate us"</em>), he views his father's assimilation as weak <em>"grovelling"</em>. Strict religion restores his pride, dignity, and a sense of moral superiority (<em>"he was not inferior"</em>).
+            </li>
+            <li>
+              <strong>The Role of Martyr (p. 32):</strong> Cold and merciless toward Bettina and Parvez. In taking Parvez's beating without defending himself, Ali wins the moral high ground and asks: <em>"So who's the fanatic now?"</em>
+            </li>
+          </ul>
+        </div>
+
+                <div class="character-card" style="grid-column: 1 / -1;">
+          <div class="char-header">
+            <span class="char-role">The Confidante</span>
+            <h3 class="char-name">Bettina</h3>
+            <p class="char-sub">Prostitute, Parvez's loyal friend and passenger</p>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+            <ul class="char-trait-list">
+              <li>
+                <strong>Loyal Confidante (pp. 21–22):</strong> Saved by Parvez from a violent customer 3 years ago. She sits in his front passenger seat and is the only person Parvez can truly confide in.
+              </li>
+              <li>
+                <strong>Voice of Empathy &amp; Reason (pp. 22, 28):</strong> Highly perceptive. She teaches Parvez to check Ali's eyes for drugs and prevents him from kicking Ali out: <em>"You have to show him love."</em>
+              </li>
+            </ul>
+            <ul class="char-trait-list">
+              <li>
+                <strong>The Dramatic Catalyst (pp. 31–32):</strong> In the cab, she defends Parvez with affection. Humiliated and frightened by Ali's venom (<em>"a woman like you"</em>), she leaps from the moving taxi. Her flight shatters Parvez's last self-control.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+        <section class="editorial-section" id="acculturation" style="border-bottom: none; padding-top: 4.5rem; padding-bottom: 4rem;">
+    <div class="editorial-inner">
+      <span class="section-eyebrow">Sociological Framework // Cultural Encounters</span>
+      <h2 class="section-headline">Acculturation &amp; Abitur Context</h2>
+      <p class="section-lead">
+        The four cultural pathways (John Berry / Kamran Ahmed) and how the story connects directly to the Abitur topic "Cultural Encounters".
+      </p>
+
+            <div class="acc-matrix-container">
+        <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); display: block; margin-bottom: 0.5rem;">The 4 Acculturation Pathways</span>
+        <h3 style="font-size: 1.6rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">How Father &amp; Son Navigate British Culture</h3>
+        <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+          Acculturation describes how immigrants balance their heritage culture with the host nation's culture. In the story, Parvez and Ali represent diametrically opposed outcomes:
+        </p>
+
+        <div class="acc-matrix">
+
+                    <div class="matrix-item">
+            <div>
+              <div class="matrix-item-header">
+                <div>
+                  <h4 class="matrix-name">1. Assimilation</h4>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);">Parvez (The Father)</span>
+                </div>
+                <span class="matrix-badge">Host: High · Origin: Low</span>
+              </div>
+              <div class="matrix-body">
+                <p>
+                  <strong>Definition:</strong> Adopting the host culture while abandoning the culture and religion of origin.
+                </p>
+                <p>
+                  <strong>Book Facts (pp. 19, 26–27):</strong> 20 years in London; drinks whisky, eats crispy bacon and pork sausages; insists <em>"This is England. We have to fit in"</em> (p. 26); avoids mosques; worked endless night shifts to buy Ali Western clothes and fund his accounting studies.
+                </p>
+              </div>
+            </div>
+            <p class="matrix-deduction">
+              <strong>Deduction:</strong> Abused as a boy by a Quran teacher in Lahore (p. 23), Parvez sees religion as oppressive. To him, assimilation is freedom, progress, and safety for his family.
+            </p>
+          </div>
+
+                    <div class="matrix-item">
+            <div>
+              <div class="matrix-item-header">
+                <div>
+                  <h4 class="matrix-name">2. Integration</h4>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);">Ali's Former Life ("Old" Ali)</span>
+                </div>
+                <span class="matrix-badge">Host: High · Origin: High</span>
+              </div>
+              <div class="matrix-body">
+                <p>
+                  <strong>Definition:</strong> Keeping ties to family heritage while actively participating and achieving success in the host society.
+                </p>
+                <p>
+                  <strong>Book Facts (pp. 19–20):</strong> Lived with Pakistani parents while achieving full English success: top grades (straight A's), studying accounting, playing cricket, swimming, football, electric guitar, and having an English girlfriend.
+                </p>
+              </div>
+            </div>
+            <p class="matrix-deduction">
+              <strong>Deduction:</strong> Integration seemed ideal, but was fragile. Ali felt that playing cricket and getting top grades did not stop British society from looking down on him (<em>"Western materialists hate us"</em>, p. 26).
+            </p>
+          </div>
+
+                    <div class="matrix-item">
+            <div>
+              <div class="matrix-item-header">
+                <div>
+                  <h4 class="matrix-name">3. Deculturation</h4>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);">Parvez's Isolation (Rootlessness)</span>
+                </div>
+                <span class="matrix-badge">Host: Low · Origin: Low</span>
+              </div>
+              <div class="matrix-body">
+                <p>
+                  <strong>Definition:</strong> Losing connection to one's culture of origin without ever truly being accepted in the host country, leading to alienation.
+                </p>
+                <p>
+                  <strong>Book Facts (pp. 20–24, 29, 32):</strong> Cut off from Pakistani religion (p. 23), but remains an overworked cabbie on the social sidelines. When Ali calls him a <em>"groveler"</em> (p. 29), Parvez sits downstairs alone, drinking in total silence and isolation (p. 32).
+                </p>
+              </div>
+            </div>
+            <p class="matrix-deduction">
+              <strong>Deduction:</strong> Parvez has no religious roots, no community support, and is rejected by his son. This total rootlessness causes his emotional breakdown and violent outburst.
+            </p>
+          </div>
+
+                    <div class="matrix-item">
+            <div>
+              <div class="matrix-item-header">
+                <div>
+                  <h4 class="matrix-name">4. Rejection</h4>
+                  <span style="font-size: 0.8rem; color: var(--text-muted);">Ali's Fundamentalism ("New" Ali)</span>
+                </div>
+                <span class="matrix-badge">Host: Low · Origin: High / Radical</span>
+              </div>
+              <div class="matrix-body">
+                <p>
+                  <strong>Definition:</strong> Completely rejecting host culture and retreating into strict religious orthodoxy or a militant counter-culture.
+                </p>
+                <p>
+                  <strong>Book Facts (pp. 19–20, 26–32):</strong> Purges room into dustbin (clothes, guitar, video tapes, p. 19); breaks up with English girlfriend; quits university (p. 28); condemns enjoyment as <em>"a bottomless pit"</em> (p. 30); insults Bettina (p. 31); warns: <em>"There will be jihad"</em> (p. 26).
+                </p>
+              </div>
+            </div>
+            <p class="matrix-deduction">
+              <strong>Deduction:</strong> Fundamentalism gives Ali pride and moral superiority (<em>"he was not inferior"</em>, p. 29). Enduring Parvez's beating without flinching cements his role as an unyielding martyr (p. 32).
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+            <div class="analysis-card" style="margin-top: 2.5rem;">
+        <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); display: block; margin-bottom: 0.5rem;">Curriculum Link // Abitur English</span>
+        <h3 style="font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-bottom: 1.25rem;">Connection to the Topic: "Cultural Encounters"</h3>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 1.25rem; padding: 0;">
+          <li style="font-size: 0.95rem; line-height: 1.7; color: #d4d4d8;">
+            <strong style="color: #ffffff; font-size: 1.05rem;">1. 1st vs. 2nd Generation Immigrant Conflict:</strong><br>
+            • <em>1st Generation (Parvez):</em> Post-colonial immigrants who endured hard labor and discrimination to achieve the "British Dream." They prioritize economic survival, adaptation, and material success.<br>
+            • <em>2nd Generation (Ali):</em> Born in the UK, but caught between two worlds. Feeling subtle racism and Western hostility (<em>"Western materialists hate us"</em>, p. 26), Ali rejects his father's assimilation as weak <em>"grovelling"</em> (p. 29) and turns to fundamentalism for pride and belonging.
+          </li>
+          <li style="font-size: 0.95rem; line-height: 1.7; color: #d4d4d8;">
+            <strong style="color: #ffffff; font-size: 1.05rem;">2. Multicultural Britain &amp; Post-Colonial Legacy:</strong><br>
+            Kureishi explores the limits of the British "melting pot" (contrasting with optimistic views like Benjamin Zephaniah's <em>"The British"</em>). The story shows how historical imperial tensions and social exclusion can push marginalized youth away from integration and into radicalisation.
+          </li>
+          <li style="font-size: 0.95rem; line-height: 1.7; color: #d4d4d8;">
+            <strong style="color: #ffffff; font-size: 1.05rem;">3. The Tragedy of Failed Cultural Encounters:</strong><br>
+            In the short story curriculum (alongside George Orwell's <em>"Shooting an Elephant"</em> and Zadie Smith's <em>"The Embassy of Cambodia"</em>), <em>My Son the Fanatic</em> serves as the central example of how cultural encounters fail when dialogue collapses, empathy is lost, and rigid dogmatism replaces mutual respect.
+          </li>
+        </ul>
+      </div>
+
+            <div style="text-align: center; margin-top: 4.5rem; margin-bottom: 1rem;">
+        <button class="btn-story-summary" onclick="toggleSummary(true)">
+          <span>Open Summary of the Story</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+    <footer>
+    <p style="font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; color: #ffffff;">
+      My Son the Fanatic — Hanif Kureishi
+    </p>
+    <p style="font-size: 1rem; color: #e4e4e7; margin-bottom: 0; font-weight: 500;">
+      By Leo, Adrian &amp; Hassan
+    </p>
+  </footer>
+
+    <script>
+    window.addEventListener('scroll', () => {
+      const winScroll = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progress-line').style.width = scrolled + '%';
+    });
+    function toggleSummary(show) {
+      const modal = document.getElementById('summary-modal');
+      if (show) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    function handleBackdrop(e) {
+      if (e.target.id === 'summary-modal') {
+        toggleSummary(false);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.story-card').forEach(card => {
+          gsap.from(card, {
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              end: "bottom 20%",
+              toggleActions: "play reverse play reverse"
+            },
+            y: 35,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out"
+          });
+        });
+        gsap.utils.toArray('.scrolly-act').forEach(act => {
+          const img = act.querySelector('.sticky-viewport img');
+          if (img) {
+            gsap.to(img, {
+              scrollTrigger: {
+                trigger: act,
+                start: "top top",
+                end: "bottom top",
+                scrub: 1.2
+              },
+              scale: 1.08
+            });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
